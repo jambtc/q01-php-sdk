@@ -20,7 +20,7 @@ class AuthService
     public function validateToken(): ?bool
     {
         try {
-            $response = $this->httpClient->get($this->apiUrl, [
+            $response = $this->httpClient->get($this->baseUrl, [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token
                 ],
