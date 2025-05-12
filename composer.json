@@ -1,0 +1,27 @@
+{
+    "name": "jambtc/q01-php-sdk",
+    "description": "SDK PHP per interagire con le REST API tramite autenticazione Bearer Token.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Q01SDK\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "guzzlehttp/guzzle": "^7.4.5",
+        "guzzlehttp/psr7": "^2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "authors": [
+        {
+            "name": "jambtc",
+            "email": "jambtc@gmail.com",
+            "homepage": "https://github.com/jambtc"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
