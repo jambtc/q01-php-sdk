@@ -33,13 +33,11 @@ class ArtCollectionController
      * Recupera una singola pagina da Q01.
      * Effettua una richiesta all'API di Q01 per ottenere gli elementi paginati.
      *
-     * @param int $pageSize Il numero di elementi da recuperare in una singola pagina. Valore predefinito: 10.
-     * @param int $page Il numero della pagina da recuperare. Valore predefinito: 0 (prima pagina).
      * @return array|null Ritorna un array contenente i dispositivi della pagina corrente e i metadati della risposta
      *                    (come `totalPages`, `hasNext`, ecc.). Ritorna `null` in caso di errore.
      */
 
-    public function getAll(string $uri, int $pageSize = 10, int $page = 0): ?array
+    public function getAll(string $uri, string $jsonBody): ?array
     {
         // Makes an HTTP GET request to fetch all devices information.
         $response = $this->client->request(
@@ -47,11 +45,12 @@ class ArtCollectionController
             'GET',
             $uri,
             [
-                'headers' => ['X-Authorization' => 'Bearer ' . $this->authService->getToken()],
-                'query' => [
-                    'pageSize' => $pageSize,
-                    'page' => $page,
+                'headers' => [
+                    'X-Authorization' => 'Bearer ' . $this->authService->getToken(),
+                    'x-tenant-id' => $this->authService->getTenant(),
+                    'Content-Type' => 'application/json', // Specifica il tipo JSON
                 ],
+                'body' => $jsonBody, // Direttamente il body JSON
             ]
         );
 

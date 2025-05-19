@@ -10,6 +10,7 @@ class AuthService
     private Client $client;
     private string $baseUrl;
     private ?string $token = null;
+    private ?string $tenant = null;
 
     public function __construct(string $baseUrl)
     {
@@ -26,7 +27,9 @@ class AuthService
                 '/api/v4/auth/tokenvalidator',
                 [
                     'headers' => [
-                        'Authorization' => 'Bearer ' . $this->token
+                        'Authorization' => 'Bearer ' . $this->token,
+                        'x-tenant-id' => $this->tenant,
+
                     ],
                     'timeout' => 5,
                     'http_errors' => false
@@ -57,6 +60,16 @@ class AuthService
     public function getToken(): ?string
     {
         return $this->token;
+    }
+
+    public function setTenant(string $tenant): void
+    {
+        $this->tenant = $tenant;
+    }
+
+    public function getTenant(): ?string
+    {
+        return $this->tenant;
     }
 
     public function getClient(): Client
