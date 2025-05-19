@@ -2,31 +2,36 @@
 
 namespace Q01SDK\Auth;
 
-use GuzzleHttp\Client;
+use Q01SDK\Http\Client;
 use GuzzleHttp\Exception\RequestException;
 
 class AuthService
 {
-    private Client $httpClient;
+    private Client $client;
     private string $baseUrl;
     private ?string $token = null;
 
     public function __construct(string $baseUrl)
     {
-        $this->httpClient = new Client(['verify' => false]);
+        $this->client = new Client();
         $this->baseUrl = rtrim($baseUrl, '/');
     }
 
     public function validateToken(): ?bool
     {
         try {
-            $response = $this->httpClient->get($this->baseUrl . '/api/v4/auth/tokenvalidator', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->token
-                ],
-                'timeout' => 5,
-                'http_errors' => false
-            ]);
+            $response = $this->client->request(
+                $this->baseUrl,
+                'GET',
+                '/api/v4/auth/tokenvalidator',
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->token
+                    ],
+                    'timeout' => 5,
+                    'http_errors' => false
+                ]
+            );
 
             return $response->getStatusCode() === 200;
         } catch (RequestException $e) {
@@ -56,7 +61,7 @@ class AuthService
 
     public function getClient(): Client
     {
-        return $this->httpClient;
+        return $this->client;
     }
 
     public function getBaseUrl(): string

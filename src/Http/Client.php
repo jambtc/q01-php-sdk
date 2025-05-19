@@ -11,7 +11,7 @@ class Client
 
     public function __construct()
     {
-        $this->client = new GuzzleClient();
+        $this->client = new GuzzleClient(['verify' => false]);
     }
 
     public function request(string $baseUrl, string $method, string $uri, array $options = []): ?Response
