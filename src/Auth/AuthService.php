@@ -7,20 +7,20 @@ use GuzzleHttp\Exception\RequestException;
 
 class AuthService
 {
-    private Client $client;
+    private Client $httpClient;
     private string $baseUrl;
     private ?string $token = null;
 
     public function __construct(string $baseUrl)
     {
-        $this->client = new Client(['verify' => false]);
+        $this->httpClient = new Client(['verify' => false]);
         $this->baseUrl = rtrim($baseUrl, '/');
     }
 
     public function validateToken(): ?bool
     {
         try {
-            $response = $this->httpClient->get($this->baseUrl, [
+            $response = $this->httpClient->get($this->baseUrl . '/api/v4/auth/tokenvalidator', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token
                 ],
@@ -56,7 +56,7 @@ class AuthService
 
     public function getClient(): Client
     {
-        return $this->client;
+        return $this->httpClient;
     }
 
     public function getBaseUrl(): string
